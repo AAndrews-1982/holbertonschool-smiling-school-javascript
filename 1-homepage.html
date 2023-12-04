@@ -135,18 +135,16 @@
         </section>
       </div>
     </header>
-    
-    <!-- Carousel -->
-    
-    <div class="main">
+     <!-- Loader -->
+   <div class="loader"></div>
+    <main class="main">
       <section class="quotes section d-flex align-items-center">
         <div class="container">
-
-    <!-- Loader -->
-    
-          <div class="loader"></div>
-
-          <div id="carouselExampleControls" class="carousel slide" data-ride="'carousel"></div>
+          <div
+            id="carouselExampleControls"
+            class="carousel slide"
+            data-ride="carousel"
+          >
             <div class="carousel-inner">
               <div class="carousel-item active">
                 <div class="row mx-auto align-items-center">
@@ -241,52 +239,103 @@
               />
               <span class="sr-only">Next</span>
             </a>
-   
-<!-- Loader Events -->
+          </div>
+        </div>
+      </section>
+    </main>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   // Simulate carousel loading time (replace this with your actual loading logic)
   setTimeout(function () {
     // Hide the loader when the carousel is done loading
-    document.querySelector(".loader").style.display = "none";
+    document.getElementById("loader").style.display = "none";
 
     // Show the carousel content
-    document.getElementById("carouselExampleControls").style.display = "block";
+    document.getElementById("carousel").style.display = "block";
   }, 3000); // Replace 3000 with your actual loading time in milliseconds
 });
 
-$(document).ready(function () {
-    // Perform Ajax request to get quotes
-    $.ajax({
-        url: "https://smileschool-api.hbtn.info/quotes",
-        method: "GET",
-        beforeSend: function () {
+      $(document).ready(function () {
+        // Perform Ajax request to get quotes
+        $.ajax({
+          url: "https://smileschool-api.hbtn.info/quotes",
+          method: "GET",
+          beforeSend: function () {
             // Show loader before making the request
-            $(".loader").show();
-        },
-        success: function (data) {
+            $(".loader-item").show();
+          },
+          success: function (data) {
+            // Hide loader when the request is successful
+            $(".loader-item").hide();
+
             // Handle the quotes data and dynamically populate the carousel
             handleQuotes(data);
 
             // Initialize the carousel after adding items
             $("#carouselExampleControls").carousel();
-
-            // Hide the loader when the carousel content is loaded
-            $(".loader").hide();
-        },
-        error: function () {
+          },
+          error: function () {
             // Handle errors if needed
             console.error("Error loading quotes");
-            $(".loader").hide();
-        },
-    });
+            $(".loader-item").hide();
+          },
+        });
 
-    // Function to handle quotes data and populate the carousel
-    function handleQuotes(data) {
-        // Your existing code to populate the carousel
-    }
-});
-   </script>
- </body>
+        // Function to handle quotes data and populate the carousel
+        function handleQuotes(data) {
+          var carouselInner = $(".carousel-inner");
+
+          // Clear the loader item
+          carouselInner.empty();
+
+          // Loop through the quotes data and create carousel items
+          data.forEach(function (quote, index) {
+            var carouselItem = $("<div>", {
+              class: "carousel-item" + (index === 0 ? " active" : ""),
+            });
+
+            var row = $("<div>", {
+              class: "row mx-auto align-items-center",
+            });
+
+            var colLeft = $("<div>", {
+              class: "col-12 col-sm-2 col-lg-2 offset-lg-1 text-center",
+            }).append(
+              $("<img>", {
+                src: "images/profile_5.jpg",
+                class: "d-block align-self-center",
+                alt: "Carousel Pic " + (index + 1),
+              })
+            );
+
+            var colRight = $("<div>", {
+              class: "col-12 col-sm-7 offset-sm-2 col-lg-9 offset-lg-0",
+            }).append(
+              $("<div>", {
+                class: "quote-text",
+              }).append(
+                $("<p>", {
+                  class: "text-white",
+                  text: quote.text,
+                }),
+                $("<h4>", {
+                  class: "text-white font-weight-bold",
+                  text: quote.name,
+                }),
+                $("<span>", {
+                  class: "text-white",
+                  text: quote.title,
+                })
+              )
+            );
+
+            row.append(colLeft, colRight);
+            carouselItem.append(row);
+            carouselInner.append(carouselItem);
+          });
+        }
+      });
+    </script>
+  </body>
 </html>
