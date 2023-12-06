@@ -37,7 +37,7 @@
 
 .btn:hover,
 .btn:active {
-  opacity: 0.9
+  opacity: var(--opacity-value);
 }
 
 /* Header / Hero Styles */
@@ -188,6 +188,21 @@
 
 /* Quotes Section  */
 
+.loader {
+  border: 10px solid #f3f3f3;
+  border-top: 10px solid #C271FF;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 2s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 .quotes {
   height: 392px;
   background-color: var(--main-color);
@@ -282,29 +297,23 @@
   }
 }
 
-/* Loader styles */
+/* POPULAR SECTION  */
+
 .loader {
-  border: 8px solid #ffffff;
-  border-top: 8px solid #ffffff;
+  border: 10px solid #f3f3f3;
+  border-top: 10px solid #C271FF;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  animation: spin 1s linear infinite;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  margin-top: -25px; /* Half of the height */
-  margin-left: -25px; /* Half of the width */
-  display: none; /* Initially hide the loader */
+  width: 80px;
+  height: 80px;
+  animation: spin 2s linear infinite;
+  margin: auto;
 }
 
-/* Loader animation */
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
-/* POPULAR SECTION  */
 
 .popular {
   height: auto;
@@ -899,23 +908,10 @@
   padding-bottom: 18px;
 }
 
-/* Mobile Version */
-@media screen and (max-width: 575px) {
-  .results .card-img-overlay {
-    top: 5vh;
-  }
-
-  .results .card {
-    width: 90vw;
-  }
-}
-
-/* Tablet Version */
 @media screen and (min-width: 576px) and (max-width: 767px) {
   .results .card-img-overlay {
     top: 1vh;
   }
-  
   .results .rating img {
     width: 12px;
   }
@@ -926,5 +922,12 @@
   }
 }
 
-/* Desktop Version */
-@media screen and (min-width: 768px)
+@media screen and (max-width: 575px) {
+  .results .card-img-overlay {
+    top: 5vh;
+  }
+
+  .results .card {
+    width: 90vw;
+  }
+}
