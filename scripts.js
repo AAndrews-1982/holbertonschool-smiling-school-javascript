@@ -1,23 +1,28 @@
-/** Your Javascript must be executed only when the document is loaded  */
+$(document).ready(function() 
+{
 
-$(document).ready(function() {
-  /** Carousel QUOTES loader*/
+  /** Quotes loader*/
+
   loadQuotes('https://smileschool-api.hbtn.info/quotes', '#carouselExampleControls');
 
-  /** Carousel Popular Video Loader */
+  /** Popular Video Loader */
+
   loadVideos('https://smileschool-api.hbtn.info/popular-tutorials', '#carouselExampleControls2');
 
-  /** Carousel Latest Video Loader */
+  /** Latest Video Loader */
+
   loadVideos('https://smileschool-api.hbtn.info/latest-videos', '#carouselExampleControls3');
 
   /** Search Video Loader */
+
   searchLoadVideoCards('https://smileschool-api.hbtn.info/courses');
 
-// Listen for changes in search parameters and update video cards
+
 $('#searchInput, #topicDropdown, #sortByDropdown').on('change', handleDropdownChanges);
 });
 
-/** Create Quote cards */
+/** Quote Cards Loader */
+
 function createQuoteCard(quote, isActive) {
   return $(`
       <div class="carousel-item${isActive ? ' active' : ''}">
@@ -37,7 +42,7 @@ function createQuoteCard(quote, isActive) {
   `);
 }
 
-/** Carousel QUOTES Loader */
+/** Carousel Quotes Loader */
 
 function loadQuotes(url, idSelector) {
   const carouselInner = $(idSelector + ' .carousel-inner .loadItems');
@@ -64,11 +69,8 @@ function loadQuotes(url, idSelector) {
   });
 }
 
-/* function to load video carousel
-with cards 4 columns in the row at a time
-looping trough 7 items from a json get request
-shows a loading spinner while fetching data
-*/
+/* This will load Video Cards Carousel with 4 columns in a row / It will scroll
+through 8 items / A loader will appear while fetching Json data */
 
 /** Create Video cards */
 
@@ -83,10 +85,10 @@ function createVideoCard(video) {
       }
   }
 
-  // create a column for every item
+  // creates a column for each item
   let cardCol = $('<div>').addClass('col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-center justify-content-md-end justify-content-lg-center');
 
-  // Create card HTML
+  // Creates the  card HTML
   let cardHtml = `
       <div class="card">
           <img src="${video.thumb_url}" class="card-img-top" alt="Video thumbnail" />
@@ -108,7 +110,7 @@ function createVideoCard(video) {
           </div>
       </div>
   `;
-  // append card to column
+  // append card to each column
   cardCol.append(cardHtml);
 
   return cardCol;
@@ -160,10 +162,10 @@ function loadVideos(url, idSelector) {
   });
 }
 
-// Function to populate Topic dropdown with dynamic options
+// Populates the Topic dropdown with dynamic selectors
 function populateTopicDropdown(data) {
   const topicDropdown = $('#topicDropdown');
-  topicDropdown.empty(); // Clear existing options
+  topicDropdown.empty(); // Clears options
 
   // Add dynamic options based on data
   data.topics.forEach(function (topic) {
@@ -174,12 +176,12 @@ function populateTopicDropdown(data) {
   });
 }
 
-// Function to populate Sort By dropdown with dynamic options
+// Populates the Sort By dropdown with dynamic selectors
 function populateSortByDropdown(data) {
   const sortByDropdown = $('#sortByDropdown');
-  sortByDropdown.empty(); // Clear existing options
+  sortByDropdown.empty(); // Clears options
 
-  // Add dynamic options based on data
+  // This will add dynamic options
   data.sorts.forEach(function (sort) {
       sortByDropdown.append($('<option>', {
           value: sort,
@@ -188,7 +190,7 @@ function populateSortByDropdown(data) {
   });
 }
 
-// Function to load video cards based on search parameters
+// Loads Video Cards based on search parameters
 function searchLoadVideoCards(url) {
   const searchInput = $('#searchInput').val();
   const selectedTopic = $('#topicDropdown').val();
@@ -196,11 +198,11 @@ function searchLoadVideoCards(url) {
   const videoCardsContainer = $('#videoCardsContainer');
   const loader = $('.loader');
 
-  // Show loader while fetching data
+  // This will show loader while fetching data
   loader.show();
   videoCardsContainer.empty(); // Clear existing video cards
 
-  // Make an AJAX request to the API
+  // AJAX request to the API
   $.ajax({
       url: url,
       type: 'GET',
@@ -214,11 +216,11 @@ function searchLoadVideoCards(url) {
           // Hide loader after data is fetched
           loader.hide();
 
-          // Populate the Topic and Sort By dropdowns
+          // Populates the Topic and Sort By dropdowns
           populateTopicDropdown(data);
           populateSortByDropdown(data);
 
-          // Add dynamic video cards based on the API response
+          // This will add dynamic video cards based on the API response
           data.courses.forEach(function (course) {
               // Create and append video card elements here
               const videoCard = createVideoCard(course);
@@ -226,16 +228,16 @@ function searchLoadVideoCards(url) {
           });
       },
       error: function (error) {
-          // Hide loader and handle errors
+          // Hides loader and handles errors
           loader.hide();
           console.error('Error:', error);
       }
   });
 }
 
-// Function to handle changes in search input, topic, and sort by dropdowns
+// Function that handles changes in the search input of all dropdowns
 function handleDropdownChanges() {
-  // Delay the API request by a short time to prevent rapid firing
+  // This will delay the API request
   clearTimeout(this.delay);
   this.delay = setTimeout(function () {
       searchLoadVideoCards('https://smileschool-api.hbtn.info/courses');
